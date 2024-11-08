@@ -5,12 +5,5 @@ services:
       - "8080:8080"
     volumes:
       - h2-data:/data/h2
-    environment:
-      SPRING_DATASOURCE_URL: jdbc:h2:file:/data/h2/testdb
-      SPRING_DATASOURCE_USERNAME: admin
-      SPRING_DATASOURCE_PASSWORD: password
-      SPRING_JPA_HIBERNATE_DDL_AUTO: update
-      SPRING_FLYWAY_ENABLED: true
-      SPRING_FLYWAY_LOCATIONS: classpath:db/migration
 volumes:
   h2-data:
