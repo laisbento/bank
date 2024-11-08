@@ -24,7 +24,7 @@ This is a bank management API project built with Spring Boot. It includes endpoi
 1. **Clone the repository**:
 
     ```bash
-    git clone <repository-url>
+    git clone git@github.com:laisbento/bank.git
     cd bank
     ```
 
