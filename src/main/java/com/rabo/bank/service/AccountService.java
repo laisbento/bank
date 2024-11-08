@@ -10,6 +10,7 @@ import com.rabo.bank.exception.AccountCreationException;
 import com.rabo.bank.exception.TransactionNotAllowedException;
 import com.rabo.bank.repository.AccountRepository;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.persistence.OptimisticLockException;
 import jakarta.validation.constraints.NotNull;
 import org.hibernate.exception.ConstraintViolationException;
 import org.iban4j.Iban;
@@ -56,7 +57,12 @@ public class AccountService {
         var newBalance = account.getBalance().add(transactionDTO.amount());
         account.setBalance(newBalance);
 
-        accountRepository.save(account);
+        try {
+            accountRepository.save(account);
+        } catch (OptimisticLockException e) {
+            throw new TransactionNotAllowedException("Failed to update account balance due to concurrent modifications.");
+        }
+
     }
 
     @Transactional
@@ -70,7 +76,12 @@ public class AccountService {
         }
 
         account.setBalance(newBalance);
-        accountRepository.save(account);
+
+        try {
+            accountRepository.save(account);
+        } catch (OptimisticLockException e) {
+            throw new TransactionNotAllowedException("Failed to update account balance due to concurrent modifications.");
+        }
     }
 
     @NotNull
